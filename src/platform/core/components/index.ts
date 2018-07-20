@@ -71,3 +71,8 @@ export {
   NovoSelectionEvent,
   NovoOptionGroupComponent,
 } from './option';
+export {
+  NovoPopoverModule,
+  NovoPopoverComponent,
+  NovoPopoverDirective,
+} from './popover';

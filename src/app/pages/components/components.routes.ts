@@ -17,6 +17,7 @@ import { SearchesComponent } from './searches/searches.component';
 import { AutocompleteComponent } from './autocomplete/autocomplete.component';
 import { SelectComponent } from './select/select.component';
 import { RadioComponent } from './radio/radio.component';
+import { PopoverComponent } from './popover/popover.component';
 
 const routes: Routes = [
   {
@@ -39,6 +40,7 @@ const routes: Routes = [
       { path: 'autocomplete', component: AutocompleteComponent },
       { path: 'select', component: SelectComponent },
       { path: 'radio', component: RadioComponent },
+      { path: 'popover', component: PopoverComponent },
       { path: '', redirectTo: 'buttons', pathMatch: 'full' },
     ],
   },
