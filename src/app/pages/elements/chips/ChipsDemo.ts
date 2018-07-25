@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 // APP
 let BasicChipsDemoTpl = require('./templates/BasicChipsDemo.html');
 let AsyncChipsDemoTpl = require('./templates/AsyncChipsDemo.html');
+let AsyncInitializeChipsDemoTpl = require('./templates/AsyncInitializeChipsDemo.html');
 let FormattedChipsDemoTpl = require('./templates/FormattedChipsDemo.html');
 let CloseOnSelectChipsDemoTpl = require('./templates/CloseOnSelectChipsDemo.html');
 let GroupedMultiPickerDemoTpl = require('./templates/GroupedMultiPickerDemo.html');
@@ -34,6 +35,14 @@ const template = `
     <div class="example chips-demo">${AsyncChipsDemoTpl}</div>
     <code-snippet [code]="AsyncChipsDemoTpl"></code-snippet>
 
+    <h5>Async Initialize Examples</h5>
+    <p>
+        By clicking on the <code>chips</code> element, the options list will be displayed.  Select any of the options
+        by clicking on the item in the list.  The value selected will be added to the list of selected values.
+    </p>
+    <div class="example chips-demo">${AsyncInitializeChipsDemoTpl}</div>
+    <code-snippet [code]="AsyncInitializeChipsDemoTpl"></code-snippet>
+
     <h5>Formatted Examples</h5>
     <p>
         By clicking on the <code>chips</code> element, the options list will be displayed.  Select any of the options
@@ -64,6 +73,7 @@ const template = `
 export class ChipsDemoComponent {
     private BasicChipsDemoTpl: string = BasicChipsDemoTpl;
     private AsyncChipsDemoTpl: string = AsyncChipsDemoTpl;
+    private AsyncInitializeChipsDemoTpl: string = AsyncInitializeChipsDemoTpl;
     private FormattedChipsDemoTpl: string = FormattedChipsDemoTpl;
     private CloseOnSelectChipsDemoTpl: string = CloseOnSelectChipsDemoTpl;
     private GroupedMultiPickerDemoTpl: string = GroupedMultiPickerDemoTpl;
@@ -71,6 +81,7 @@ export class ChipsDemoComponent {
     private staticDemo: any;
     private formatted: any;
     private async: any;
+    private asyncInitialize: any;
     private avalue: any;
     private placeholder: string = 'Select...';
     private value: any = ['Alabama'];
@@ -136,6 +147,26 @@ export class ChipsDemoComponent {
                     }, 300);
                 });
             }
+        };
+        this.asyncInitialize = {
+          options: () => {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve(abbrieviated);
+              }, 300);
+            });
+          },
+          getData: (data) => {
+            return new Promise((resolve) => {
+              setTimeout(() => {
+                resolve([{
+                  label: 'USA'
+                }, {
+                  label: 'GB'
+                }]);
+              }, 300);
+            });
+          }
         };
         this.avalue = [{
             value: 'USA'

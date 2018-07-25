@@ -10,6 +10,8 @@ import { KeyCodes } from '../../utils/key-codes/KeyCodes';
 import { Helpers } from '../../utils/Helpers';
 import { NovoLabelService } from '../../services/novo-label-service';
 import { ComponentUtils } from '../../utils/component-utils/ComponentUtils';
+import { ChipsStateService } from './ChipsStateService';
+import { ChipsDataService } from './ChipsDataService';
 
 // Value accessor for the component (supports ngModel)
 const CHIPS_VALUE_ACCESSOR = {
@@ -61,7 +63,7 @@ export class NovoChipElement {
 
 @Component({
     selector: 'chips,novo-chips',
-    providers: [CHIPS_VALUE_ACCESSOR],
+    providers: [CHIPS_VALUE_ACCESSOR, ChipsStateService],
     template: `
         <chip
             *ngFor="let item of _items | async"
@@ -133,10 +135,15 @@ export class NovoChipsElement implements OnInit {
     onModelTouched: Function = () => {
     };
 
-    constructor(public element: ElementRef, private componentUtils: ComponentUtils, public labels: NovoLabelService) { }
+    constructor(public element: ElementRef,
+      private componentUtils: ComponentUtils,
+      public labels: NovoLabelService,
+      private chipsStateService: ChipsStateService,
+      private chipsDataService: ChipsDataService) { }
 
     ngOnInit() {
-        this.setItems();
+      // this.chipsDataService.initialize(this.source, this.model);
+      this.setItems();
     }
 
     //get accessor
@@ -164,8 +171,13 @@ export class NovoChipsElement implements OnInit {
     }
 
     setItems() {
-        this.items = [];
-        if (this.model && Array.isArray(this.model)) {
+      this.items = [];
+      if (this.source.getData && typeof this.source.getData === 'function') {
+        this.source.getData().then((result: any) => {
+          this.items = result;
+          this._items.next(this.items);
+        });
+      } else if (this.model && Array.isArray(this.model)) {
             let noLabels = [];
             for (let value of this.model) {
                 let label;
